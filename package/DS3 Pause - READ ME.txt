@@ -1,0 +1,67 @@
+DS3 PAUSE v1.0
+A real pause button for Dark Souls III. Offline only.
+https://github.com/RetchERez/DS3-Pause
+
+
+INSTALL
+-------
+Extract everything in this zip into your Dark Souls III "Game" folder,
+the one that contains DarkSoulsIII.exe:
+
+    ...\steamapps\common\DARK SOULS III\Game\
+
+Then start the game the way you normally do. That's it.
+
+(Steam: right-click Dark Souls III > Manage > Browse local files > open "Game".)
+
+
+USE
+---
+Pause/Break key ............ pause / resume
+Back + Start (controller) .. hold both, then let go: pause / resume
+
+The whole game freezes, including music and sound. DS3 Pause starts with the
+game, runs invisibly in the background, and closes when the game closes.
+
+
+OFFLINE ONLY
+------------
+DS3 Pause turns itself off when the game goes online: from then on the pause
+key is ignored until you restart the game offline.
+
+To play offline: in Dark Souls III go to Settings > Network > Launch Setting >
+Start offline, then restart the game.
+
+
+SETTINGS
+--------
+"DS3 Pause.ini" is created next to the exe the first time it runs. Open it in
+Notepad to change the key, the controller combo, or turn beeps on.
+
+
+UNINSTALL
+---------
+Delete these files from the Game folder:
+    dinput8.dll
+    DS3 Pause.exe
+    DS3 Pause.ini, DS3 Pause.log  (if present)
+    DS3 Pause - READ ME.txt
+
+
+ALREADY USING ANOTHER dinput8.dll MOD?
+--------------------------------------
+Don't overwrite it. Skip our dinput8.dll and either:
+  - run "DS3 Pause.exe" yourself before or after starting the game, or
+  - with Mod Engine 2, add our dinput8.dll to external_dlls in
+    config_darksouls3.toml (keep DS3 Pause.exe next to it).
+
+
+SAFE?
+-----
+DS3 Pause never reads or changes game memory, game files, or saves. It freezes
+the game process the same way Windows' Resource Monitor can, and mutes the game
+in the Windows volume mixer while paused. If Windows shuts down while the game
+is paused, the game is resumed first so it can close normally.
+
+Windows SmartScreen may warn about an unsigned program; the full source code is
+on GitHub.

@@ -1,0 +1,27 @@
+[package]
+name = "dinput8"
+version = "1.0.0"
+edition = "2021"
+description = "DS3 Pause drop-in loader: starts DS3 Pause.exe with the game and forwards DirectInput to Windows' real dinput8.dll"
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies.windows-sys]
+version = "0.59"
+features = [
+    "Win32_Foundation",
+    "Win32_System_LibraryLoader",
+    "Win32_System_SystemInformation",
+    "Win32_System_Threading",
+    "Win32_Security",
+    "Win32_System_Diagnostics_ToolHelp",
+    "Win32_UI_WindowsAndMessaging",
+]
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true
+panic = "abort"
