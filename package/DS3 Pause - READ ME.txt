@@ -65,3 +65,21 @@ is paused, the game is resumed first so it can close normally.
 
 Windows SmartScreen may warn about an unsigned program; the full source code is
 on GitHub.
+
+
+CHANGELOG
+---------
+v1.1
+  - Controller combo (Back + Start) now needs a short hold (a quarter second)
+    before letting go pauses, so a brief accidental press can't pause the game.
+  - DS3 Pause.log is timestamped and shows whether each pause came from the
+    keyboard or the controller.
+
+v1.0
+  - First release.
+  - Pause/Break or Back + Start freezes the whole game, including music and
+    sound. The game is muted while paused and its sound restored on resume.
+  - Offline only: pausing turns itself off as soon as the game goes online.
+  - Drop-in install: starts with the game, runs invisibly, closes with it.
+  - Safeguards: resume always works, shutdown guard, crash recovery, one copy
+    at a time. No Visual C++ runtime needed.
