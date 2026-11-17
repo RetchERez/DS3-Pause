@@ -7,7 +7,7 @@ freezes: enemies, timers, physics, music and sound. Press it again to continue.
 
 ## Install
 
-Download **`DS3 Pause v1.0.zip`** from Releases and extract everything in it into your game
+Download **`DS3 Pause v1.1.zip`** from Releases and extract everything in it into your game
 folder, next to `DarkSoulsIII.exe`:
 
 ```
@@ -52,8 +52,9 @@ Resuming is always allowed, so a paused game can never get stuck.
 | `Beep` | `false` | Beep on pause/resume |
 | `Process` | `DarkSoulsIII.exe` | The game to pause |
 
-The controller combo fires when you **release** the buttons, so the game doesn't wake up with
-them still held. The game may notice the first button press (and open a menu) before the pause
+The controller combo fires when you **release** the buttons (after holding them for at least a
+quarter second), so the game doesn't wake up with them still held and a brief accidental press
+doesn't pause. The game may notice the first button press (and open a menu) before the pause
 kicks in. That's harmless; change `PadCombo` if it bothers you.
 
 ## How it works
@@ -82,7 +83,8 @@ It never reads or writes game memory and doesn't touch any game file or save.
   (or restart the game). It un-freezes and un-mutes the game as soon as it attaches.
 - **One copy:** only one DS3 Pause runs at a time.
 
-Status messages go to `DS3 Pause.log` next to the exe.
+Status messages go to `DS3 Pause.log` next to the exe, timestamped, including whether each pause
+came from the keyboard or the controller.
 
 ## Known limits
 

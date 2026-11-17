@@ -1,4 +1,4 @@
-DS3 PAUSE v1.0
+DS3 PAUSE v1.1
 A real pause button for Dark Souls III. Offline only.
 https://github.com/RetchERez/DS3-Pause
 
@@ -18,7 +18,7 @@ Then start the game the way you normally do. That's it.
 USE
 ---
 Pause/Break key ............ pause / resume
-Back + Start (controller) .. hold both, then let go: pause / resume
+Back + Start (controller) .. hold both for a moment, then let go
 
 The whole game freezes, including music and sound. DS3 Pause starts with the
 game, runs invisibly in the background, and closes when the game closes.

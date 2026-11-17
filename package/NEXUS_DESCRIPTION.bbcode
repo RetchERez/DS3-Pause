@@ -1,0 +1,53 @@
+[color=#ffffff][center][size=6][color=#5b8ac4][b]DS3 Pause[/b][/color][/size]
+[size=4]A real pause button for Dark Souls III. Offline only.[/size]
+[url=https://github.com/RetchERez/DS3-Pause]GitHub (source code)[/url]  |  [url=https://github.com/RetchERez/DS3-Pause/releases/tag/v1.1]GitHub release[/url][/center]
+
+[size=4][color=#5b8ac4][b]What it does[/b][/color][/size]
+Dark Souls III has no pause button. This adds one. Press [b]Pause/Break[/b] (or hold [b]Back + Start[/b] on a controller, then let go) and the whole game freezes: enemies, bosses, timers, physics, music and sound. Press it again to continue exactly where you left off. It starts with the game, runs invisibly in the background, and closes when the game closes. Nothing to launch, no window, no setup.
+
+[size=4][color=#5b8ac4][b]Offline only[/b][/color][/size]
+[b]You can't pause online.[/b] DS3 Pause turns itself off as soon as the game connects to the servers, and the pause key does nothing until you restart the game offline. It can't be used while invading, being invaded, or in co-op.
+To play offline: [b]Settings > Network > Launch Setting > Start offline[/b], then restart the game.
+
+[size=4][color=#5b8ac4][b]Installation[/b][/color][/size]
+Extract everything in the zip into your Dark Souls III [b]Game[/b] folder (the one with [b]DarkSoulsIII.exe[/b]), then start the game normally. That's it.
+[i]Steam: right-click Dark Souls III > Manage > Browse local files > open "Game".[/i]
+The zip contains [b]dinput8.dll[/b] (starts DS3 Pause with the game), [b]DS3 Pause.exe[/b] (the pause itself) and [b]DS3 Pause - READ ME.txt[/b].
+
+[size=4][color=#5b8ac4][b]Controls[/b][/color][/size]
+[b]Keyboard:[/b] Pause/Break to pause and resume.
+[b]Controller:[/b] hold Back + Start for a moment, then let go. It fires on release, so the game doesn't wake up with the buttons still held, and a brief accidental press won't pause.
+
+[size=4][color=#5b8ac4][b]Settings[/b][/color][/size]
+[b]DS3 Pause.ini[/b] is created next to the exe on first run. Open it in Notepad to change:
+[list]
+[*][b]Key[/b]: keyboard key (PAUSE, F1-F12, A-Z, INSERT, HOME, SCROLLLOCK, NUMPAD0-9, or a key code)
+[*][b]Controller / PadCombo[/b]: controller combo on/off, or different buttons (A B X Y LB RB BACK START L3 R3 UP DOWN LEFT RIGHT)
+[*][b]OnlyWhenFocused[/b]: only pause while the game is the active window (on by default)
+[*][b]Beep[/b]: beep on pause and resume (off by default)
+[/list]
+[size=4][color=#5b8ac4][b]Safety[/b][/color][/size]
+[list]
+[*]Never reads or changes game memory, game files, or your saves
+[*]Freezes the game the same way Windows' own Resource Monitor can ("Suspend process")
+[*]Resuming always works, so the game can never get stuck paused
+[*]If Windows shuts down or restarts while paused, the game is resumed first so it closes normally
+[*]If DS3 Pause is closed while paused, the next launch un-freezes and un-mutes the game
+[*]Only one copy runs at a time. No Visual C++ runtime or other install needed
+[/list]
+[size=4][color=#5b8ac4][b]Compatibility[/b][/color][/size]
+Dark Souls III Steam 1.15.2 (current), Windows 10/11 64-bit, Full Screen and Windowed, keyboard and XInput controllers (Xbox and most others).
+[b]Already using another dinput8.dll mod?[/b] Don't overwrite it. Skip our dinput8.dll and either run [b]DS3 Pause.exe[/b] yourself, or with [b]Mod Engine 2[/b] add our dinput8.dll to [b]external_dlls[/b] in config_darksouls3.toml (keep DS3 Pause.exe next to it).
+
+[size=4][color=#5b8ac4][b]Uninstall[/b][/color][/size]
+Delete [b]dinput8.dll[/b], [b]DS3 Pause.exe[/b], [b]DS3 Pause - READ ME.txt[/b], and [b]DS3 Pause.ini[/b] / [b]DS3 Pause.log[/b] if present from the Game folder.
+
+[size=4][color=#5b8ac4][b]FAQ[/b][/color][/size]
+[b]Pause doesn't do anything.[/b] You're probably online: set Launch Setting to Start offline and restart. Also make sure the game is the active window. [b]DS3 Pause.log[/b] in the Game folder shows what it saw, with timestamps.
+[b]The game says "Not Responding" while paused.[/b] Normal if you click the frozen game for a few seconds. It clears when you resume.
+[b]SmartScreen or antivirus warns about it.[/b] It isn't code-signed. The full source is on [url=https://github.com/RetchERez/DS3-Pause]GitHub[/url] if you'd rather read or build it yourself.
+[b]Can I get banned?[/b] It only works offline, turns itself off the moment the game goes online, and never touches game memory or files. As with any mod, keep online and modded play separate.
+
+[size=4][color=#5b8ac4][b]Source code[/b][/color][/size]
+Free and open source (MIT): [url=https://github.com/RetchERez/DS3-Pause]https://github.com/RetchERez/DS3-Pause[/url]
+[i]Not affiliated with FromSoftware or Bandai Namco.[/i][/color]

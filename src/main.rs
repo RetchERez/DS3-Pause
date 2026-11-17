@@ -31,15 +31,24 @@ use windows_sys::Win32::UI::Input::XboxController::{XInputGetState, XINPUT_STATE
 use windows_sys::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, GetWindowThreadProcessId};
 
 const STILL_ACTIVE: u32 = 259;
+/// How long the controller combo must be held before releasing it counts.
+const PAD_HOLD_MS: u128 = 250;
 
 static LOG: Mutex<Option<std::fs::File>> = Mutex::new(None);
 
-/// Append a line to DS3 Pause.log (there is no console).
+/// Local time as HH:MM:SS.mmm, for log lines.
+fn timestamp() -> String {
+    let mut t: windows_sys::Win32::Foundation::SYSTEMTIME = unsafe { std::mem::zeroed() };
+    unsafe { windows_sys::Win32::System::SystemInformation::GetLocalTime(&mut t) };
+    format!("{:02}:{:02}:{:02}.{:03}", t.wHour, t.wMinute, t.wSecond, t.wMilliseconds)
+}
+
+/// Append a timestamped line to DS3 Pause.log (there is no console).
 macro_rules! log {
     ($($a:tt)*) => {{
         if let Ok(mut g) = LOG.lock() {
             if let Some(f) = g.as_mut() {
-                let _ = writeln!(f, $($a)*);
+                let _ = writeln!(f, "[{}] {}", timestamp(), format_args!($($a)*));
             }
         }
     }};
@@ -335,7 +344,7 @@ fn main() {
     // shutdown, so the game is resumed before Windows asks it to close.
     unsafe { windows_sys::Win32::System::Threading::SetProcessShutdownParameters(0x3FF, 0) };
 
-    log!("DS3 Pause 1.0  -  offline only (pausing is refused while DS3 is online)");
+    log!("DS3 Pause {}  -  offline only (pausing is refused while DS3 is online)", env!("CARGO_PKG_VERSION"));
     log!("  Game:       {}", cfg.process);
     log!("  Keyboard:   {}", cfg.key_name);
     if cfg.controller {
@@ -348,7 +357,7 @@ fn main() {
     let mut handle: HANDLE = std::ptr::null_mut();
     let mut last_scan = Instant::now() - Duration::from_secs(10);
     let mut key_was_down = false;
-    let mut pad_armed = false; // full combo was held, waiting for release
+    let mut pad_held_since: Option<Instant> = None; // full combo held since, waiting for release
     let mut paused_at: Option<Instant> = None;
     // Sticky: once the game is seen online, pausing stays off for the rest of
     // this game session (DS3 Pause exits with the game, so it resets).
@@ -439,7 +448,7 @@ fn main() {
 
         // --- read inputs (edge-triggered) ----------------------------------
         let key_down = unsafe { GetAsyncKeyState(cfg.key) } as u16 & 0x8000 != 0;
-        let mut toggle = key_down && !key_was_down;
+        let mut source: Option<&str> = (key_down && !key_was_down).then_some("keyboard");
         key_was_down = key_down;
 
         if cfg.controller {
@@ -453,18 +462,22 @@ fn main() {
                 }
             }
             // Fire on release so the game never sees the buttons still held
-            // the moment it wakes up.
+            // the moment it wakes up. The combo must be held a moment first,
+            // so a split-second blip (Steam Input, a controller hiccup, a
+            // brushed button) can't pause the game by accident.
             if held {
-                pad_armed = true;
-            } else if pad_armed {
-                pad_armed = false;
-                toggle = true;
+                pad_held_since.get_or_insert_with(Instant::now);
+            } else if let Some(since) = pad_held_since.take() {
+                let ms = since.elapsed().as_millis();
+                if ms >= PAD_HOLD_MS {
+                    source = Some("controller");
+                } else {
+                    log!("Ignored controller combo: held only {ms} ms (needs {PAD_HOLD_MS} ms).");
+                }
             }
         }
 
-        if !toggle {
-            continue;
-        }
+        let Some(source) = source else { continue };
         let Some(p) = pid else { continue };
 
         // --- toggle ---------------------------------------------------------
@@ -506,7 +519,7 @@ fn main() {
                 SUSPENDED.store(handle as isize, Ordering::SeqCst);
                 SUSPEND_COUNT.fetch_add(1, Ordering::SeqCst);
                 paused_at = Some(Instant::now());
-                log!("PAUSED");
+                log!("PAUSED ({source})");
                 beep(cfg.beep, 1200, 90);
             } else {
                 log!("Pause failed (NTSTATUS 0x{:08X}).", status as u32);
@@ -517,7 +530,7 @@ fn main() {
             resume_now();
             restore_audio();
             let secs = paused_at.take().map(|t| t.elapsed().as_secs_f32()).unwrap_or(0.0);
-            log!("RESUMED after {secs:.1}s");
+            log!("RESUMED ({source}) after {secs:.1}s");
             beep(cfg.beep, 600, 90);
         }
     }

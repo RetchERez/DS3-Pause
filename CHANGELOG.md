@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1 — 2026-11-16
+
+- **Controller combo needs a short hold:** Back+Start must be held for at least a quarter second
+  before letting go pauses. A split-second blip (Steam Input, a controller hiccup, a brushed
+  button) can no longer pause the game by accident.
+- **Better log:** every line in `DS3 Pause.log` is timestamped, and each pause and resume says
+  whether it came from the keyboard or the controller.
+
 ## v1.0 — 2026-11-16
 
 First release.

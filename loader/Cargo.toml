@@ -1,6 +1,6 @@
 [package]
 name = "dinput8"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2021"
 description = "DS3 Pause drop-in loader: starts DS3 Pause.exe with the game and forwards DirectInput to Windows' real dinput8.dll"
 
